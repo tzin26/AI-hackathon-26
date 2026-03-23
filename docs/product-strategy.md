@@ -1,7 +1,7 @@
 # Product Strategy
 
 ## Overview
-Petplaydate.AI is an AI-powered dog sociability and social wellness platform that helps owners build safe, real-world connections through compatibility matching, dog temperament analysis, and smart walk recommendations.
+PetPlayDate.ai is an AI-powered dog sociability and social wellness platform that helps owners build safe, real-world connections through compatibility matching, dog temperament analysis, and smart walk recommendations.
 
 ## Problem
 - Many people struggle with loneliness and lack of real-world social connection.
@@ -10,7 +10,7 @@ Petplaydate.AI is an AI-powered dog sociability and social wellness platform tha
 - Existing pet social apps can feel shallow or gimmicky.
 
 ## Solution
-Fetch helps dog owners form safe, meaningful real-world connections by using AI to match owners and dogs based on compatibility, temperament, energy level, and social goals.
+PetPlayDate.ai helps dog owners form safe, meaningful real-world connections by using AI to match owners and dogs based on compatibility, temperament, energy level, and social goals.
 
 ## Core Features
 - AI compatibility scoring for owner and dog profiles
