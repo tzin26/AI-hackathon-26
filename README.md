@@ -1,5 +1,5 @@
 # AI-hackathon-26
-# Fetch 🐕
+# PetPlayDate.ai 🐕
 
 ## AI-Powered Dog Sociability & Social Wellness Platform
 
@@ -16,7 +16,7 @@ Fetch is an AI-powered app that helps dog owners build safe, meaningful real-wor
 ---
 
 ## 💡 Our Solution
-Fetch transforms everyday dog walking into an opportunity for connection, wellness, and community.
+PetPlayDate.ai transforms everyday dog walking into an opportunity for connection, wellness, and community.
 
 Using AI, we match dog owners based on:
 - Personality and social preferences
@@ -68,7 +68,7 @@ Using AI, we match dog owners based on:
 ---
 
 ## 🎯 Vision
-Fetch is not a “dog dating app.”
+PetPlayDate.ai is not a “dog dating app.”
 
 It is a social wellness platform designed to:
 - reduce loneliness
