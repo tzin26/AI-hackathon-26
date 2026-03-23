@@ -3,7 +3,7 @@
 
 ## AI-Powered Dog Sociability & Social Wellness Platform
 
-Fetch is an AI-powered app that helps dog owners build safe, meaningful real-world connections through compatibility matching, dog temperament analysis, and smart walk recommendations.
+PetPlayDate.ai is an AI-powered app that helps dog owners build safe, meaningful real-world connections through compatibility matching, dog temperament analysis, and smart walk recommendations.
 
 ---
 
