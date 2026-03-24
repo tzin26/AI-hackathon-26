@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>petplaydate.ai onboarding</title>
+  <style>
+    :root {
+      --sand: #f7e6cc;
+      --peach: #f2b683;
+      --clay: #d87446;
+      --forest: #285f4e;
+      --mint: #d9efe5;
+      --cream: #fffaf3;
+      --ink: #23302c;
+      --muted: #64716d;
+      --white: #ffffff;
+      --shadow: 0 24px 70px rgba(52, 59, 54, 0.16);
+      --radius-xl: 32px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.85), transparent 28%),
+        linear-gradient(135deg, #f1b26d 0%, #f9e6ca 45%, #d4ede3 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .app-shell {
+      width: min(980px, 100%);
+      display: grid;
+      gap: 20px;
+    }
+
+    .panel {
+      background: rgba(255, 250, 243, 0.86);
+      backdrop-filter: blur(18px);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+    }
+
+    .screen {
+      display: grid;
+      gap: 20px;
+    }
+
+    .screen.hidden {
+      display: none;
+    }
+
+    .hero {
+      padding: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.68);
+      color: var(--forest);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 0.95;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.6;
+    }
+
+    .step-pill {
+      white-space: nowrap;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+      font-weight: 700;
+    }
+
+    .progress-track {
+      margin-top: 22px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(40, 95, 78, 0.12);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--clay), var(--forest));
+      transition: width 240ms ease;
+    }
+
+    .content {
+      padding: 28px;
+    }
+
+    .step {
+      display: none;
+      animation: fadeIn 240ms ease;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .welcome-grid,
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .info-card,
+    .summary-card {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(40, 95, 78, 0.08);
+    }
+
+    .info-card h3,
+    .summary-card h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    .step h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.5rem, 2.8vw, 2rem);
+    }
+
+    .step p.lead {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .compact-field input,
+    .compact-field select {
+      max-width: 280px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid rgba(35, 48, 44, 0.12);
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    input:focus,
+    select:focus {
+      outline: 2px solid rgba(40, 95, 78, 0.22);
+      border-color: rgba(40, 95, 78, 0.28);
+    }
+
+    input[type="file"] {
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .photo-upload {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(40, 95, 78, 0.08);
+    }
+
+    .photo-preview {
+      width: 92px;
+      height: 92px;
+      border-radius: 24px;
+      object-fit: cover;
+      background: linear-gradient(135deg, rgba(217, 239, 229, 0.9), rgba(242, 182, 131, 0.8));
+      border: 1px solid rgba(40, 95, 78, 0.08);
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
+      gap: 16px;
+    }
+
+    .country-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 52px;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(35, 48, 44, 0.12);
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .chip {
+      position: relative;
+    }
+
+    .chip input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .chip span {
+      display: inline-block;
+      padding: 13px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(40, 95, 78, 0.12);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .chip input:checked + span {
+      background: var(--forest);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 18px;
+      padding: 16px 22px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 180ms ease, opacity 180ms ease, background 180ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      transform: none;
+    }
+
+    .secondary {
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+      flex: 1;
+    }
+
+    .primary {
+      background: var(--forest);
+      color: var(--white);
+      flex: 2;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .summary-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+    }
+
+    .summary-list strong {
+      color: var(--ink);
+    }
+
+    .range-wrap {
+      display: grid;
+      gap: 10px;
+    }
+
+    .range-value {
+      color: var(--clay);
+      font-weight: 800;
+    }
+
+    .discover-panel {
+      display: grid;
+      gap: 18px;
+      padding: 28px;
+    }
+
+    .discover-hero {
+      padding: 28px;
+    }
+
+    .discover-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .discover-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 620px;
+      line-height: 1.6;
+    }
+
+    .score-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--clay), var(--forest));
+      color: var(--white);
+      font-size: 1.2rem;
+      font-weight: 800;
+      box-shadow: 0 16px 34px rgba(40, 95, 78, 0.18);
+    }
+
+    .discover-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card-stack {
+      min-height: 470px;
+    }
+
+    .match-card {
+      padding: 22px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(217, 239, 229, 0.78), transparent 34%),
+        linear-gradient(180deg, #ffffff, #faf4eb);
+      border: 1px solid rgba(40, 95, 78, 0.1);
+      box-shadow: 0 18px 48px rgba(48, 58, 52, 0.14);
+      display: grid;
+      gap: 18px;
+      transition: transform 260ms ease, opacity 260ms ease;
+      backdrop-filter: none;
+    }
+
+    .match-card.hidden-card {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .match-card.next-card {
+      transform: none;
+      opacity: 1;
+    }
+
+    .match-card.back-card {
+      transform: none;
+      opacity: 1;
+    }
+
+    .match-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 16px;
+    }
+
+    .match-top h3 {
+      margin: 0;
+      font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    }
+
+    .match-avatars {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .match-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 22px;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 24px rgba(48, 58, 52, 0.14);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .meta-line {
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .mini-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .mini-badge {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(40, 95, 78, 0.08);
+      color: var(--forest);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .dog-spotlight,
+    .insights-panel {
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(40, 95, 78, 0.08);
+    }
+
+    .dog-spotlight h4,
+    .insights-panel h4 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    .insights-panel {
+      display: grid;
+      gap: 14px;
+      align-self: stretch;
+    }
+
+    .discover-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .discover-tab {
+      border: 1px solid rgba(40, 95, 78, 0.12);
+      background: rgba(255, 255, 255, 0.84);
+      color: var(--forest);
+      border-radius: 999px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .discover-tab.active {
+      background: var(--forest);
+      color: var(--white);
+      border-color: var(--forest);
+    }
+
+    .discover-view.hidden {
+      display: none;
+    }
+
+    .decision-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .decision-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(40, 95, 78, 0.08);
+      color: var(--forest);
+      font-weight: 800;
+      font-size: 0.86rem;
+    }
+
+    .decision-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .decision-item {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(40, 95, 78, 0.08);
+    }
+
+    .decision-item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .decision-item h5 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .decision-item p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.94rem;
+    }
+
+    .decision-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .decision-meta span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(40, 95, 78, 0.08);
+      color: var(--forest);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .mini-action {
+      border: none;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: var(--forest);
+      color: var(--white);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .mini-action.secondary {
+      background: rgba(40, 95, 78, 0.1);
+      color: var(--forest);
+    }
+
+    .decision-empty {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .decision-screen {
+      display: grid;
+      gap: 14px;
+    }
+
+    .message-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.4fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .thread-list,
+    .thread-panel {
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(40, 95, 78, 0.08);
+    }
+
+    .thread-items {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .thread-item {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(40, 95, 78, 0.08);
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 18px;
+      padding: 14px;
+      cursor: pointer;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .thread-item.active {
+      border-color: rgba(40, 95, 78, 0.35);
+      background: rgba(217, 239, 229, 0.5);
+    }
+
+    .thread-item h5,
+    .thread-panel h4 {
+      margin: 0;
+    }
+
+    .thread-item-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .thread-item p,
+    .thread-subtitle,
+    .empty-thread {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .thread-meta {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .thread-preview {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .unread-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: var(--clay);
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .message-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .message-bubble {
+      max-width: min(440px, 85%);
+      padding: 12px 14px;
+      border-radius: 18px;
+      line-height: 1.5;
+      background: rgba(40, 95, 78, 0.08);
+      color: var(--ink);
+    }
+
+    .message-bubble.self {
+      margin-left: auto;
+      background: var(--forest);
+      color: var(--white);
+    }
+
+    .bubble-author {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      opacity: 0.78;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .bubble-time {
+      display: block;
+      margin-top: 6px;
+      opacity: 0.72;
+      font-size: 0.77rem;
+    }
+
+    .message-composer {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .message-composer textarea {
+      width: 100%;
+      min-height: 100px;
+      resize: vertical;
+      border: 1px solid rgba(35, 48, 44, 0.12);
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .message-composer textarea:focus {
+      outline: 2px solid rgba(40, 95, 78, 0.22);
+      border-color: rgba(40, 95, 78, 0.28);
+    }
+
+    .planner-card {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(217, 239, 229, 0.62), rgba(255, 255, 255, 0.96));
+      border: 1px solid rgba(40, 95, 78, 0.1);
+      display: grid;
+      gap: 12px;
+    }
+
+    .planner-card h5 {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .planner-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .planner-grid label {
+      gap: 6px;
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .planner-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .proposal-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(40, 95, 78, 0.1);
+      color: var(--forest);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .insight-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      display: grid;
+      gap: 8px;
+    }
+
+    .swipe-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .swipe-btn {
+      flex: 1;
+      padding: 16px 18px;
+      border-radius: 18px;
+      font-weight: 800;
+    }
+
+    .swipe-btn.pass {
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--ink);
+    }
+
+    .swipe-btn.like {
+      background: var(--clay);
+      color: var(--white);
+    }
+
+    .inline-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .ghost-btn {
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+      border: 1px solid rgba(40, 95, 78, 0.1);
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-weight: 800;
+    }
+
+    .empty-state {
+      padding: 28px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--muted);
+      text-align: center;
+      border: 1px dashed rgba(40, 95, 78, 0.18);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 14px;
+      }
+
+      .hero,
+      .content {
+        padding: 20px;
+      }
+
+      .hero-top {
+        flex-direction: column;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .discover-head,
+      .match-top,
+      .swipe-actions,
+      .inline-actions {
+        flex-direction: column;
+      }
+
+      .discover-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .card-stack {
+        min-height: auto;
+      }
+
+      .location-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="screen" id="onboarding-screen">
+      <section class="panel hero">
+        <div class="eyebrow">petplaydate.ai</div>
+        <div class="hero-top">
+          <div>
+            <h1 id="hero-title">Find dogs your dog will actually enjoy.</h1>
+            <p class="subtitle" id="hero-subtitle">
+              Build a dog-first profile so we can match play style, energy, social comfort, and outing preferences before the humans even chat.
+            </p>
+          </div>
+          <div class="step-pill" id="step-pill">1 / 6</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </section>
+
+      <section class="panel content">
+        <form id="onboarding-form">
+        <section class="step active" data-step="0">
+          <h2>Welcome to your first match-ready profile</h2>
+          <p class="lead">The best dog friendships depend on energy, comfort, pacing, and boundaries. We still keep a little handler context, but the matching starts with the dog.</p>
+          <div class="welcome-grid">
+            <article class="info-card">
+              <h3>Compatible dogs</h3>
+              <p>Temperament, play style, social comfort, and energy help avoid mismatched first meetups.</p>
+            </article>
+            <article class="info-card">
+              <h3>Better first intros</h3>
+              <p>Preferred outing type and comfort level help us recommend calmer parks, trails, patios, or one-on-one walks.</p>
+            </article>
+            <article class="info-card">
+              <h3>Human details, lightly</h3>
+              <p>Location and the handler basics stay in the mix, but they support the dog match instead of driving it.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="step" data-step="1">
+          <h2>Tell us about the handler</h2>
+          <p class="lead">We only need enough human info to make local meetups practical and safe.</p>
+          <div class="field-grid">
+            <label class="compact-field">
+              Your name
+              <input type="text" id="ownerName" placeholder="Alex">
+            </label>
+            <div class="photo-upload">
+              <label>
+                Your photo
+                <input type="file" id="ownerPhoto" accept="image/*">
+              </label>
+              <img class="photo-preview" id="ownerPhotoPreview" alt="Owner profile preview">
+            </div>
+          </div>
+          <div class="location-grid" style="margin-top: 18px;">
+            <label>
+              Country
+              <span class="country-pill">United States</span>
+            </label>
+            <label class="compact-field">
+              City
+              <input type="text" id="city" placeholder="Los Angeles">
+            </label>
+            <label class="compact-field">
+              State
+              <select id="state">
+                <option value="">Choose state</option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="step" data-step="2">
+          <h2>What kinds of hangouts fit your dog best?</h2>
+          <p class="lead">Choose the settings where your dog is most likely to feel comfortable, playful, and easy to manage.</p>
+          <div class="chips" id="hobbies-group">
+            <label class="chip"><input type="checkbox" value="Quiet Neighborhood Walks"><span>Quiet Walks</span></label>
+            <label class="chip"><input type="checkbox" value="Dog Park Play"><span>Dog Parks</span></label>
+            <label class="chip"><input type="checkbox" value="One-on-One Playdates"><span>1:1 Playdates</span></label>
+            <label class="chip"><input type="checkbox" value="Small Group Meetups"><span>Small Groups</span></label>
+            <label class="chip"><input type="checkbox" value="Trail Adventures"><span>Trails</span></label>
+            <label class="chip"><input type="checkbox" value="Beach Days"><span>Beach</span></label>
+            <label class="chip"><input type="checkbox" value="Patio Hangouts"><span>Patios</span></label>
+            <label class="chip"><input type="checkbox" value="Training Sessions"><span>Training</span></label>
+          </div>
+        </section>
+
+        <section class="step" data-step="3">
+          <h2>Tell us about your dog</h2>
+          <p class="lead">These basics shape who your dog is likely to feel safe around and what kinds of meetups will actually work.</p>
+          <div class="field-grid">
+            <label class="compact-field">
+              Dog name
+              <input type="text" id="dogName" placeholder="Mochi">
+            </label>
+            <div class="photo-upload">
+              <label>
+                Dog photo
+                <input type="file" id="dogPhoto" accept="image/*">
+              </label>
+              <img class="photo-preview" id="dogPhotoPreview" alt="Dog profile preview">
+            </div>
+            <label class="compact-field">
+              Dog breed
+              <input type="text" id="dogBreed" placeholder="Mini Goldendoodle">
+            </label>
+            <label>
+              Dog size
+              <select id="dogSize">
+                <option value="Small" selected>Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+              </select>
+            </label>
+            <label>
+              Activity level
+              <select id="activityLevel">
+                <option value="Low Energy">Low Energy</option>
+                <option value="Moderate" selected>Moderate</option>
+                <option value="High Energy">High Energy</option>
+              </select>
+            </label>
+            <label>
+              Diet
+              <select id="dogDiet">
+                <option value="Standard Kibble" selected>Standard Kibble</option>
+                <option value="Fresh Food">Fresh Food</option>
+                <option value="Raw Diet">Raw Diet</option>
+                <option value="Sensitive Stomach">Sensitive Stomach</option>
+                <option value="Prescription Diet">Prescription Diet</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="step" data-step="4">
+          <h2>How does your dog socialize?</h2>
+          <p class="lead">This is the heart of matching. The goal is not just similar dogs, but dogs that can share space well.</p>
+          <div class="field-grid" style="margin-bottom: 22px;">
+            <label>
+              Social comfort with unfamiliar dogs
+              <select id="socialComfort">
+                <option value="Needs Slow Intro">Needs Slow Intro</option>
+                <option value="Warms Up With Time" selected>Warms Up With Time</option>
+                <option value="Comfortable Quickly">Comfortable Quickly</option>
+                <option value="Loves Every Dog">Loves Every Dog</option>
+              </select>
+            </label>
+            <label>
+              Best first meetup setup
+              <select id="introStyle">
+                <option value="Parallel Walk" selected>Parallel Walk</option>
+                <option value="Neutral Outdoor Space">Neutral Outdoor Space</option>
+                <option value="Fenced Play Area">Fenced Play Area</option>
+                <option value="Short Sniff and Reset">Short Sniff and Reset</option>
+              </select>
+            </label>
+          </div>
+          <h3>Temperament</h3>
+          <div class="chips" id="temperament-group" style="margin-bottom: 22px;">
+            <label class="chip"><input type="checkbox" value="Friendly"><span>Friendly</span></label>
+            <label class="chip"><input type="checkbox" value="Shy"><span>Shy</span></label>
+            <label class="chip"><input type="checkbox" value="Curious"><span>Curious</span></label>
+            <label class="chip"><input type="checkbox" value="Gentle"><span>Gentle</span></label>
+            <label class="chip"><input type="checkbox" value="Energetic"><span>Energetic</span></label>
+            <label class="chip"><input type="checkbox" value="Protective"><span>Protective</span></label>
+            <label class="chip"><input type="checkbox" value="Very Social"><span>Very Social</span></label>
+          </div>
+          <h3>Play style</h3>
+          <div class="chips" id="playstyle-group">
+            <label class="chip"><input type="checkbox" value="Fetch"><span>Fetch</span></label>
+            <label class="chip"><input type="checkbox" value="Chase"><span>Chase</span></label>
+            <label class="chip"><input type="checkbox" value="Group Play"><span>Group Play</span></label>
+            <label class="chip"><input type="checkbox" value="Long Walks"><span>Long Walks</span></label>
+            <label class="chip"><input type="checkbox" value="Wrestling"><span>Wrestling</span></label>
+            <label class="chip"><input type="checkbox" value="Calm + Cuddly"><span>Calm + Cuddly</span></label>
+          </div>
+        </section>
+
+        <section class="step" data-step="5">
+          <h2>Your profile looks ready</h2>
+          <p class="lead">This profile is now weighted toward dog compatibility first, with just enough human detail to make meetup planning easier.</p>
+          <div class="summary-grid">
+            <article class="summary-card">
+              <h3>Handler details</h3>
+              <ul class="summary-list" id="owner-summary"></ul>
+            </article>
+            <article class="summary-card">
+              <h3>Dog profile</h3>
+              <ul class="summary-list" id="dog-summary"></ul>
+            </article>
+            <article class="summary-card">
+              <h3>Dog match signals</h3>
+              <ul class="summary-list" id="matching-summary"></ul>
+            </article>
+          </div>
+        </section>
+
+        <div class="actions">
+          <button type="button" class="secondary hidden" id="back-btn">Back</button>
+          <button type="button" class="primary" id="next-btn">Continue</button>
+        </div>
+        </form>
+      </section>
+    </section>
+
+    <section class="screen hidden" id="discover-screen">
+      <section class="panel discover-hero">
+        <div class="eyebrow">petplaydate.ai</div>
+        <div class="hero-top">
+          <div>
+            <h1>Start swiping compatible dog matches.</h1>
+            <p class="subtitle">Your profile is live. Now you can browse nearby matches ranked by dog temperament, play style, social comfort, outing fit, and energy alignment.</p>
+            <div class="inline-actions">
+              <button type="button" class="ghost-btn" id="edit-profile-btn">Edit My Profile</button>
+            </div>
+          </div>
+          <div class="score-badge" id="top-score-badge">--%</div>
+        </div>
+      </section>
+
+      <section class="panel discover-panel">
+        <div class="discover-head">
+          <div>
+            <div class="eyebrow">Discover matches</div>
+            <p>Swipe through recommended profiles and see exactly why the dogs themselves could be a strong fit.</p>
+          </div>
+        </div>
+
+        <div class="discover-tabs">
+          <button type="button" class="discover-tab active" data-view="browse">Browse</button>
+          <button type="button" class="discover-tab" data-view="interested">Interested <span class="decision-count" id="interested-count">0</span></button>
+          <button type="button" class="discover-tab" data-view="passed">Passed <span class="decision-count" id="passed-count">0</span></button>
+          <button type="button" class="discover-tab" data-view="messages">Messages <span class="decision-count" id="messages-count">0</span></button>
+        </div>
+
+        <section class="discover-view" id="browse-view">
+          <div class="discover-layout">
+            <div>
+              <div class="card-stack" id="card-stack"></div>
+              <div class="swipe-actions" style="margin-top: 16px;">
+                <button type="button" class="swipe-btn pass" id="pass-btn">Pass</button>
+                <button type="button" class="swipe-btn like" id="like-btn">Interested</button>
+              </div>
+            </div>
+
+            <aside class="insights-panel">
+              <div>
+                <h4>How the match score works</h4>
+                <ul class="insight-list">
+                  <li><strong>42%</strong> temperament and play style compatibility</li>
+                  <li><strong>20%</strong> best-fit meetup settings</li>
+                  <li><strong>24%</strong> social comfort and intro pace</li>
+                  <li><strong>14%</strong> energy, size, and breed fit</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4>Current compatibility highlights</h4>
+                <ul class="insight-list" id="compatibility-list"></ul>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="discover-view hidden" id="interested-view">
+          <div class="decision-screen">
+            <div class="decision-panel">
+              <h4>Your Interested Dogs</h4>
+              <div class="decision-list" id="interested-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="discover-view hidden" id="passed-view">
+          <div class="decision-screen">
+            <div class="decision-panel">
+              <h4>Your Passed Dogs</h4>
+              <div class="decision-list" id="passed-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="discover-view hidden" id="messages-view">
+          <div class="message-layout">
+            <div class="thread-list">
+              <h4>Conversations</h4>
+              <p class="thread-subtitle">Start a chat from an interested match to plan a dog hangout.</p>
+              <div class="thread-items" id="thread-list"></div>
+            </div>
+
+            <div class="thread-panel" id="thread-panel">
+              <h4>Messages</h4>
+              <p class="empty-thread">Select a conversation to coordinate a walk, patio meetup, or playdate.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const steps = Array.from(document.querySelectorAll(".step"));
+    const nextBtn = document.getElementById("next-btn");
+    const backBtn = document.getElementById("back-btn");
+    const progressBar = document.getElementById("progress-bar");
+    const stepPill = document.getElementById("step-pill");
+    const heroTitle = document.getElementById("hero-title");
+    const heroSubtitle = document.getElementById("hero-subtitle");
+    const ownerPhoto = document.getElementById("ownerPhoto");
+    const dogPhoto = document.getElementById("dogPhoto");
+    const ownerPhotoPreview = document.getElementById("ownerPhotoPreview");
+    const dogPhotoPreview = document.getElementById("dogPhotoPreview");
+    const onboardingScreen = document.getElementById("onboarding-screen");
+    const discoverScreen = document.getElementById("discover-screen");
+    const discoverTabs = Array.from(document.querySelectorAll(".discover-tab"));
+    const browseView = document.getElementById("browse-view");
+    const interestedView = document.getElementById("interested-view");
+    const passedView = document.getElementById("passed-view");
+    const cardStack = document.getElementById("card-stack");
+    const compatibilityList = document.getElementById("compatibility-list");
+    const interestedList = document.getElementById("interested-list");
+    const passedList = document.getElementById("passed-list");
+    const interestedCount = document.getElementById("interested-count");
+    const passedCount = document.getElementById("passed-count");
+    const messagesCount = document.getElementById("messages-count");
+    const messagesView = document.getElementById("messages-view");
+    const threadList = document.getElementById("thread-list");
+    const threadPanel = document.getElementById("thread-panel");
+    const topScoreBadge = document.getElementById("top-score-badge");
+    const passBtn = document.getElementById("pass-btn");
+    const likeBtn = document.getElementById("like-btn");
+    const editProfileBtn = document.getElementById("edit-profile-btn");
+
+    const sampleMatches = [
+      {
+        ownerName: "Jamie",
+        location: "Santa Monica",
+        outingPreferences: ["Beach Days", "Patio Hangouts", "Quiet Neighborhood Walks", "One-on-One Playdates"],
+        dogName: "Koda",
+        dogBreed: "Mini Goldendoodle",
+        dogSize: "Small",
+        activityLevel: "Moderate",
+        dogDiet: "Fresh Food",
+        socialComfort: "Comfortable Quickly",
+        introStyle: "Neutral Outdoor Space",
+        temperament: ["Friendly", "Curious", "Very Social"],
+        playStyle: ["Fetch", "Long Walks", "Group Play"],
+        ownerPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23f6d4b1'/%3E%3Ccircle cx='70' cy='54' r='24' fill='%23fff5e8'/%3E%3Crect x='34' y='84' width='72' height='32' rx='16' fill='%23fff5e8'/%3E%3Ctext x='70' y='126' text-anchor='middle' font-size='18' fill='%23285f4e' font-family='Arial'%3EJamie%3C/text%3E%3C/svg%3E",
+        dogPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23d9efe5'/%3E%3Ctext x='70' y='76' text-anchor='middle' font-size='46' fill='%23285f4e'%3E🐶%3C/text%3E%3Ctext x='70' y='124' text-anchor='middle' font-size='18' fill='%23285f4e' font-family='Arial'%3EKoda%3C/text%3E%3C/svg%3E",
+        bio: "Always looking for easy beach walks and dog-friendly coffee spots."
+      },
+      {
+        ownerName: "Priya",
+        location: "Silver Lake",
+        outingPreferences: ["Trail Adventures", "Dog Park Play", "Small Group Meetups", "Training Sessions"],
+        dogName: "Nori",
+        dogBreed: "Australian Shepherd",
+        dogSize: "Medium",
+        activityLevel: "High Energy",
+        dogDiet: "Standard Kibble",
+        socialComfort: "Loves Every Dog",
+        introStyle: "Fenced Play Area",
+        temperament: ["Energetic", "Friendly", "Curious"],
+        playStyle: ["Chase", "Group Play", "Long Walks"],
+        ownerPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23d9efe5'/%3E%3Ccircle cx='70' cy='54' r='24' fill='%23f8fffc'/%3E%3Crect x='34' y='84' width='72' height='32' rx='16' fill='%23f8fffc'/%3E%3Ctext x='70' y='126' text-anchor='middle' font-size='18' fill='%23285f4e' font-family='Arial'%3EPriya%3C/text%3E%3C/svg%3E",
+        dogPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23f2b683'/%3E%3Ctext x='70' y='76' text-anchor='middle' font-size='46' fill='%2323302c'%3E🐕%3C/text%3E%3Ctext x='70' y='124' text-anchor='middle' font-size='18' fill='%2323302c' font-family='Arial'%3ENori%3C/text%3E%3C/svg%3E",
+        bio: "Weekend trail person with a dog who loves motion and new friends."
+      },
+      {
+        ownerName: "Maya",
+        location: "Pasadena",
+        outingPreferences: ["Quiet Neighborhood Walks", "Patio Hangouts", "One-on-One Playdates", "Short Sniff and Reset"],
+        dogName: "Olive",
+        dogBreed: "Cavalier King Charles Spaniel",
+        dogSize: "Small",
+        activityLevel: "Low Energy",
+        dogDiet: "Sensitive Stomach",
+        socialComfort: "Needs Slow Intro",
+        introStyle: "Parallel Walk",
+        temperament: ["Gentle", "Shy", "Friendly"],
+        playStyle: ["Calm + Cuddly", "Long Walks"],
+        ownerPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23f7e6cc'/%3E%3Ccircle cx='70' cy='54' r='24' fill='%23fffdf8'/%3E%3Crect x='34' y='84' width='72' height='32' rx='16' fill='%23fffdf8'/%3E%3Ctext x='70' y='126' text-anchor='middle' font-size='18' fill='%2323302c' font-family='Arial'%3EMaya%3C/text%3E%3C/svg%3E",
+        dogPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23ead9f8'/%3E%3Ctext x='70' y='76' text-anchor='middle' font-size='46' fill='%23503b6e'%3E🐾%3C/text%3E%3Ctext x='70' y='124' text-anchor='middle' font-size='18' fill='%23503b6e' font-family='Arial'%3EOlive%3C/text%3E%3C/svg%3E",
+        bio: "More patio brunch than dog park chaos, with a sweet gentle pup."
+      },
+      {
+        ownerName: "Noah",
+        location: "Culver City",
+        outingPreferences: ["Dog Park Play", "Trail Adventures", "Beach Days", "Small Group Meetups"],
+        dogName: "Atlas",
+        dogBreed: "Labrador Retriever",
+        dogSize: "Large",
+        activityLevel: "High Energy",
+        dogDiet: "Standard Kibble",
+        socialComfort: "Comfortable Quickly",
+        introStyle: "Fenced Play Area",
+        temperament: ["Friendly", "Energetic", "Very Social"],
+        playStyle: ["Fetch", "Wrestling", "Group Play"],
+        ownerPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23cfe0ff'/%3E%3Ccircle cx='70' cy='54' r='24' fill='%23f7fbff'/%3E%3Crect x='34' y='84' width='72' height='32' rx='16' fill='%23f7fbff'/%3E%3Ctext x='70' y='126' text-anchor='middle' font-size='18' fill='%23253b62' font-family='Arial'%3ENoah%3C/text%3E%3C/svg%3E",
+        dogPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23f0cfaa'/%3E%3Ctext x='70' y='76' text-anchor='middle' font-size='46' fill='%2361482f'%3E🐕‍🦺%3C/text%3E%3Ctext x='70' y='124' text-anchor='middle' font-size='18' fill='%2361482f' font-family='Arial'%3EAtlas%3C/text%3E%3C/svg%3E",
+        bio: "Big energy, big park sessions, and dogs that like to really play."
+      },
+      {
+        ownerName: "Elena",
+        location: "Long Beach",
+        outingPreferences: ["Beach Days", "Quiet Neighborhood Walks", "Patio Hangouts", "Training Sessions"],
+        dogName: "Piper",
+        dogBreed: "Whippet Mix",
+        dogSize: "Medium",
+        activityLevel: "Moderate",
+        dogDiet: "Fresh Food",
+        socialComfort: "Warms Up With Time",
+        introStyle: "Parallel Walk",
+        temperament: ["Gentle", "Curious", "Friendly"],
+        playStyle: ["Chase", "Long Walks", "Calm + Cuddly"],
+        ownerPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23ffd7bf'/%3E%3Ccircle cx='70' cy='54' r='24' fill='%23fff7f2'/%3E%3Crect x='34' y='84' width='72' height='32' rx='16' fill='%23fff7f2'/%3E%3Ctext x='70' y='126' text-anchor='middle' font-size='18' fill='%23724a33' font-family='Arial'%3EElena%3C/text%3E%3C/svg%3E",
+        dogPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23ffe7cf'/%3E%3Ctext x='70' y='76' text-anchor='middle' font-size='46' fill='%23724a33'%3Epp%3C/text%3E%3Ctext x='70' y='124' text-anchor='middle' font-size='18' fill='%23724a33' font-family='Arial'%3EPiper%3C/text%3E%3C/svg%3E",
+        bio: "A thoughtful beach-and-walk duo that likes a gentle first intro and relaxed hangs."
+      },
+      {
+        ownerName: "Marcus",
+        location: "Burbank",
+        outingPreferences: ["Dog Park Play", "Small Group Meetups", "Trail Adventures", "One-on-One Playdates"],
+        dogName: "Rex",
+        dogBreed: "Boxer",
+        dogSize: "Large",
+        activityLevel: "High Energy",
+        dogDiet: "Standard Kibble",
+        socialComfort: "Comfortable Quickly",
+        introStyle: "Neutral Outdoor Space",
+        temperament: ["Energetic", "Friendly", "Curious"],
+        playStyle: ["Wrestling", "Fetch", "Group Play"],
+        ownerPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23d7e8ff'/%3E%3Ccircle cx='70' cy='54' r='24' fill='%23f7fbff'/%3E%3Crect x='34' y='84' width='72' height='32' rx='16' fill='%23f7fbff'/%3E%3Ctext x='70' y='126' text-anchor='middle' font-size='18' fill='%23334f78' font-family='Arial'%3EMarcus%3C/text%3E%3C/svg%3E",
+        dogPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23f8d4ae'/%3E%3Ctext x='70' y='76' text-anchor='middle' font-size='46' fill='%23694722'%3ERx%3C/text%3E%3Ctext x='70' y='124' text-anchor='middle' font-size='18' fill='%23694722' font-family='Arial'%3ERex%3C/text%3E%3C/svg%3E",
+        bio: "High-energy play and structured intros, especially for dogs that love a real runaround."
+      },
+      {
+        ownerName: "Sofia",
+        location: "West Hollywood",
+        outingPreferences: ["Patio Hangouts", "Quiet Neighborhood Walks", "One-on-One Playdates", "Short Sniff and Reset"],
+        dogName: "Bean",
+        dogBreed: "French Bulldog",
+        dogSize: "Small",
+        activityLevel: "Low Energy",
+        dogDiet: "Sensitive Stomach",
+        socialComfort: "Needs Slow Intro",
+        introStyle: "Short Sniff and Reset",
+        temperament: ["Gentle", "Shy", "Curious"],
+        playStyle: ["Calm + Cuddly", "Long Walks"],
+        ownerPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23f6dfd0'/%3E%3Ccircle cx='70' cy='54' r='24' fill='%23fff8f3'/%3E%3Crect x='34' y='84' width='72' height='32' rx='16' fill='%23fff8f3'/%3E%3Ctext x='70' y='126' text-anchor='middle' font-size='18' fill='%23604a3d' font-family='Arial'%3ESofia%3C/text%3E%3C/svg%3E",
+        dogPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23f3e2d4'/%3E%3Ctext x='70' y='76' text-anchor='middle' font-size='46' fill='%23604a3d'%3EBn%3C/text%3E%3Ctext x='70' y='124' text-anchor='middle' font-size='18' fill='%23604a3d' font-family='Arial'%3EBean%3C/text%3E%3C/svg%3E",
+        bio: "Prefers quieter sidewalks, patient dogs, and short, low-pressure first meetings."
+      },
+      {
+        ownerName: "Dev",
+        location: "Glendale",
+        outingPreferences: ["Training Sessions", "Trail Adventures", "Small Group Meetups", "Quiet Neighborhood Walks"],
+        dogName: "Miso",
+        dogBreed: "Shiba Inu",
+        dogSize: "Medium",
+        activityLevel: "Moderate",
+        dogDiet: "Raw Diet",
+        socialComfort: "Warms Up With Time",
+        introStyle: "Neutral Outdoor Space",
+        temperament: ["Independent", "Curious", "Protective"],
+        playStyle: ["Long Walks", "Chase"],
+        ownerPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23dcede3'/%3E%3Ccircle cx='70' cy='54' r='24' fill='%23f9fffc'/%3E%3Crect x='34' y='84' width='72' height='32' rx='16' fill='%23f9fffc'/%3E%3Ctext x='70' y='126' text-anchor='middle' font-size='18' fill='%233a5f4d' font-family='Arial'%3EDev%3C/text%3E%3C/svg%3E",
+        dogPhoto: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Crect width='140' height='140' rx='36' fill='%23f2d3a5'/%3E%3Ctext x='70' y='76' text-anchor='middle' font-size='46' fill='%23604a2a'%3EMs%3C/text%3E%3Ctext x='70' y='124' text-anchor='middle' font-size='18' fill='%23604a2a' font-family='Arial'%3EMiso%3C/text%3E%3C/svg%3E",
+        bio: "Enjoys dogs with good manners, space-aware intros, and a little structure before play."
+      }
+    ];
+
+    const stepMeta = [
+      {
+        title: "Find dogs your dog will actually enjoy.",
+        subtitle: "Build a dog-first profile so matching starts with behavior, comfort, and play compatibility."
+      },
+      {
+        title: "Add the handler basics.",
+        subtitle: "Human details stay lightweight so the dog profile can do most of the matching work."
+      },
+      {
+        title: "Choose your dog's best settings.",
+        subtitle: "The right environment matters almost as much as the right dog."
+      },
+      {
+        title: "Now let’s meet your dog.",
+        subtitle: "Dog basics help us understand pacing, size comfort, and care needs."
+      },
+      {
+        title: "Personality drives the match.",
+        subtitle: "Temperament, first-intro style, and social comfort now sit at the center of compatibility."
+      },
+      {
+        title: "This profile is match-ready.",
+        subtitle: "You now have a dog-first foundation for social discovery inside petplaydate.ai."
+      }
+    ];
+
+    let currentStep = 0;
+    let swipeIndex = 0;
+    let isEditingProfile = false;
+    let activeDiscoverView = "browse";
+    let activeThreadKey = null;
+    const interestedMatches = new Map();
+    const passedMatches = new Map();
+    const messageThreads = new Map();
+
+    function matchKey(match) {
+      return `${match.ownerName}-${match.dogName}`;
+    }
+
+    function currentTimeLabel() {
+      return new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    }
+
+    const cityLocationOptions = {
+      "Santa Monica": ["Palisades Park", "Tongva Park", "Montana Avenue Walk"],
+      "Silver Lake": ["Silver Lake Reservoir", "Griffith Park Trails", "Sunset Junction Side Streets"],
+      "Pasadena": ["Arroyo Seco Trail", "Lacy Park", "Old Pasadena Walk"],
+      "Culver City": ["Veterans Memorial Park", "Culver Steps Plaza", "Ballona Creek Path"],
+      "Long Beach": ["Rosie's Dog Beach", "Marine Stadium Path", "Bixby Park"],
+      "Burbank": ["Johnny Carson Park", "Griffith Park North Gate", "Chandler Bikeway"],
+      "West Hollywood": ["Plummer Park", "West Hollywood Park", "Melrose Side Streets"],
+      "Glendale": ["Brand Park", "Verdugo Park", "Glendale Narrows Walk"]
+    };
+
+    const defaultTimeOptions = [
+      "Saturday, 9:00 AM",
+      "Saturday, 10:30 AM",
+      "Sunday, 9:30 AM",
+      "Sunday, 11:00 AM",
+      "Weekday, 6:00 PM"
+    ];
+
+    function getCityOptions(match) {
+      return cityLocationOptions[match.location] || ["Neighborhood Walk", "Neutral Park", "Dog-Friendly Patio"];
+    }
+
+    function buildSuggestedProposal(match) {
+      return {
+        title: `${match.introStyle} with ${match.dogName}`,
+        time: match.activityLevel === "High Energy" ? "Saturday, 9:00 AM" : "Sunday, 10:30 AM",
+        place: getCityOptions(match)[0],
+        status: "Draft"
+      };
+    }
+
+    function generateReply(thread, text) {
+      const message = text.toLowerCase();
+      const { match } = thread;
+      const cityOptions = getCityOptions(match).map((item) => item.toLowerCase());
+      const mentionedCitySpot = cityOptions.find((item) => message.includes(item.toLowerCase()));
+
+      if (/(saturday|sunday|weekend|tomorrow|this week|next week)/.test(message) && /(am|pm|\d{1,2})/.test(message)) {
+        return `That timing could work for us. ${match.dogName} is usually best earlier in the day, and a ${match.introStyle.toLowerCase()} sounds like a good first step.`;
+      }
+
+      if (mentionedCitySpot) {
+        return `${mentionedCitySpot.replace(/\b\w/g, (letter) => letter.toUpperCase())} sounds like a solid option. ${match.dogName} could probably do well there if we keep the first hangout short and easy.`;
+      }
+
+      if (/(park|patio|beach|trail|walk|neighborhood)/.test(message)) {
+        return `I like that setting. ${match.dogName} tends to do best with ${match.outingPreferences[0].toLowerCase()} or another calm neutral spot, so that feels promising.`;
+      }
+
+      if (/(intro|slow|leash|parallel|sniff|neutral)/.test(message)) {
+        return `Thank you for thinking about the intro style. A ${match.introStyle.toLowerCase()} would definitely help ${match.dogName} settle in comfortably.`;
+      }
+
+      if (/(propose|hangout|meet|playdate)/.test(message)) {
+        return `Yes, I would be open to that. If we keep the first meetup short and dog-focused, I think ${match.dogName} could do really well.`;
+      }
+
+      if (/(food|treat|diet|allergy)/.test(message)) {
+        return `${match.dogName} is on ${match.dogDiet.toLowerCase()}, so I appreciate checking first. We can keep the first meetup treat-free if that is easier.`;
+      }
+
+      return `That sounds thoughtful. ${match.dogName} usually does best when we keep the first meetup calm, dog-focused, and matched to ${match.outingPreferences[0].toLowerCase()}.`;
+    }
+
+    function ensureThread(match) {
+      const key = matchKey(match);
+      if (!messageThreads.has(key)) {
+        const suggestion = buildSuggestedProposal(match);
+        messageThreads.set(key, {
+          match,
+          unread: 2,
+          lastUpdated: "2m ago",
+          proposal: suggestion,
+          messages: [
+            {
+              sender: "them",
+              text: `Hi! ${match.dogName} usually does best with ${match.introStyle.toLowerCase()} and ${match.outingPreferences[0].toLowerCase()}.`,
+              time: "2:14 PM"
+            },
+            {
+              sender: "them",
+              text: `If your dog feels like a fit, I would be open to planning a low-pressure hangout. ${suggestion.time} could be a nice window for us.`,
+              time: "2:16 PM"
+            }
+          ]
+        });
+      }
+      return key;
+    }
+
+    function renderDecisionLists() {
+      const interested = Array.from(interestedMatches.values());
+      const passed = Array.from(passedMatches.values());
+
+      interestedCount.textContent = interested.length;
+      passedCount.textContent = passed.length;
+      messagesCount.textContent = messageThreads.size;
+
+      interestedList.innerHTML = interested.length
+        ? interested.map((match) => `
+            <article class="decision-item">
+              <div class="decision-item-top">
+                <div>
+                  <h5>${match.dogName} and ${match.ownerName}</h5>
+                  <p>${match.location}</p>
+                </div>
+                <div class="mini-badge-row">
+                  <button type="button" class="mini-action" data-message-match="${matchKey(match)}">Message</button>
+                  <button type="button" class="mini-action secondary" data-pass-saved="${matchKey(match)}">Pass Instead</button>
+                </div>
+              </div>
+              <div class="decision-meta">
+                <span>${match.score}% match</span>
+                <span>${match.dogSize}</span>
+                <span>${match.activityLevel}</span>
+                <span>${match.socialComfort}</span>
+              </div>
+            </article>
+          `).join("")
+        : `<p class="decision-empty">Dogs you mark interested will collect here so you can review them later.</p>`;
+
+      passedList.innerHTML = passed.length
+        ? passed.map((match) => `
+            <article class="decision-item">
+              <div class="decision-item-top">
+                <div>
+                  <h5>${match.dogName} and ${match.ownerName}</h5>
+                  <p>${match.location}</p>
+                </div>
+                <button type="button" class="mini-action" data-reinterest="${matchKey(match)}">Re-interest</button>
+              </div>
+              <div class="decision-meta">
+                <span>${match.dogSize}</span>
+                <span>${match.activityLevel}</span>
+                <span>${match.introStyle}</span>
+              </div>
+            </article>
+          `).join("")
+        : `<p class="decision-empty">Passed dogs stay here so you can revisit them and mark re-interest if you change your mind.</p>`;
+
+      passedList.querySelectorAll("[data-reinterest]").forEach((button) => {
+        button.addEventListener("click", () => reinterestMatch(button.dataset.reinterest));
+      });
+
+      interestedList.querySelectorAll("[data-pass-saved]").forEach((button) => {
+        button.addEventListener("click", () => passSavedMatch(button.dataset.passSaved));
+      });
+
+      interestedList.querySelectorAll("[data-message-match]").forEach((button) => {
+        button.addEventListener("click", () => openMessageThread(button.dataset.messageMatch));
+      });
+    }
+
+    function renderMessagesView() {
+      const threads = Array.from(messageThreads.entries());
+      messagesCount.textContent = messageThreads.size;
+
+      threadList.innerHTML = threads.length
+        ? threads.map(([key, thread]) => `
+            <button type="button" class="thread-item ${activeThreadKey === key ? "active" : ""}" data-thread-key="${key}">
+              <div class="thread-item-top">
+                <h5>${thread.match.dogName} and ${thread.match.ownerName}</h5>
+                ${thread.unread ? `<span class="unread-badge">${thread.unread}</span>` : ""}
+              </div>
+              <p>${thread.match.location}</p>
+              <div class="thread-meta">
+                <span class="thread-preview">${thread.messages[thread.messages.length - 1]?.text || "No messages yet."}</span>
+                <span>${thread.lastUpdated || ""}</span>
+              </div>
+            </button>
+          `).join("")
+        : `<p class="decision-empty">No conversations yet. Open one from the Interested tab when you want to plan a hangout.</p>`;
+
+      threadList.querySelectorAll("[data-thread-key]").forEach((button) => {
+        button.addEventListener("click", () => openMessageThread(button.dataset.threadKey, false));
+      });
+
+      if (!activeThreadKey || !messageThreads.has(activeThreadKey)) {
+        threadPanel.innerHTML = `
+          <h4>Messages</h4>
+          <p class="empty-thread">Select a conversation to coordinate a walk, patio meetup, or playdate.</p>
+        `;
+        return;
+      }
+
+      const thread = messageThreads.get(activeThreadKey);
+      const cityOptions = getCityOptions(thread.match);
+      const quickPlans = [
+        `Want to do a ${thread.match.introStyle.toLowerCase()} this Saturday around 10 AM?`,
+        `Would a short meetup at a neutral park near ${thread.match.location} work sometime this week?`,
+        `I think our dogs could try a ${thread.match.outingPreferences[0].toLowerCase()} first. Want to plan one?`
+      ];
+      threadPanel.innerHTML = `
+        <h4>Chat with ${thread.match.ownerName}</h4>
+        <p class="thread-subtitle">You are coordinating a meetup for your dog and ${thread.match.dogName} in ${thread.match.location}.</p>
+        <div class="message-list">
+          ${thread.messages.map((message) => `
+            <div class="message-bubble ${message.sender === "self" ? "self" : ""}">
+              <span class="bubble-author">${message.sender === "self" ? "You" : thread.match.ownerName}</span>
+              ${message.text}
+              <span class="bubble-time">${message.time || ""}</span>
+            </div>
+          `).join("")}
+        </div>
+        <div class="planner-card">
+          <h5>Hangout Proposal</h5>
+          <span class="proposal-status">${thread.proposal.status}</span>
+          <p class="thread-subtitle">Choose a first-meet setup, time, and place that fit both dogs.</p>
+          <div class="planner-grid">
+            <label>
+              Meetup style
+              <select id="proposal-title">
+                <option value="Parallel Walk" ${thread.proposal.title.startsWith("Parallel Walk") ? "selected" : ""}>Parallel Walk</option>
+                <option value="Neutral Outdoor Intro" ${thread.proposal.title.startsWith("Neutral Outdoor Intro") ? "selected" : ""}>Neutral Outdoor Intro</option>
+                <option value="Fenced Play Session" ${thread.proposal.title.startsWith("Fenced Play Session") ? "selected" : ""}>Fenced Play Session</option>
+                <option value="Short Patio Meet" ${thread.proposal.title.startsWith("Short Patio Meet") ? "selected" : ""}>Short Patio Meet</option>
+              </select>
+            </label>
+            <label>
+              Time
+              <select id="proposal-time">
+                ${defaultTimeOptions.map((time) => `<option value="${time}" ${thread.proposal.time === time ? "selected" : ""}>${time}</option>`).join("")}
+              </select>
+            </label>
+            <label>
+              Location
+              <select id="proposal-place">
+                ${cityOptions.map((place) => `<option value="${place}" ${thread.proposal.place === place ? "selected" : ""}>${place}</option>`).join("")}
+              </select>
+            </label>
+          </div>
+          <div class="planner-actions">
+            <button type="button" class="mini-action" id="propose-hangout-btn">Propose</button>
+            <button type="button" class="mini-action secondary" id="accept-hangout-btn">Accept</button>
+            <button type="button" class="mini-action secondary" id="reschedule-hangout-btn">Needs Reschedule</button>
+          </div>
+          <p class="thread-subtitle">Use a quick starter to move the chat toward a real dog meetup.</p>
+          <div class="planner-actions">
+            ${quickPlans.map((plan, index) => `
+              <button type="button" class="mini-action secondary" data-quick-plan="${index}">${index === 0 ? "Weekend walk" : index === 1 ? "Neutral park" : "Suggest outing"}</button>
+            `).join("")}
+          </div>
+        </div>
+        <div class="message-composer">
+          <textarea id="message-input" placeholder="Suggest a time, place, or first meetup setup for the dogs."></textarea>
+          <button type="button" class="mini-action" id="send-message-btn">Send Message</button>
+        </div>
+      `;
+
+      document.getElementById("send-message-btn").addEventListener("click", sendMessage);
+      document.getElementById("propose-hangout-btn").addEventListener("click", () => updateProposalStatus("Proposed"));
+      document.getElementById("accept-hangout-btn").addEventListener("click", () => updateProposalStatus("Accepted"));
+      document.getElementById("reschedule-hangout-btn").addEventListener("click", () => updateProposalStatus("Needs Reschedule"));
+      ["proposal-title", "proposal-time", "proposal-place"].forEach((id) => {
+        document.getElementById(id).addEventListener("change", () => {
+          syncProposalFromInputs(thread);
+          if (thread.proposal.status !== "Accepted") {
+            thread.proposal.status = "Draft";
+          }
+          renderMessagesView();
+        });
+      });
+      threadPanel.querySelectorAll("[data-quick-plan]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.getElementById("message-input").value = quickPlans[Number(button.dataset.quickPlan)];
+        });
+      });
+    }
+
+    function renderDiscoverView() {
+      browseView.classList.toggle("hidden", activeDiscoverView !== "browse");
+      interestedView.classList.toggle("hidden", activeDiscoverView !== "interested");
+      passedView.classList.toggle("hidden", activeDiscoverView !== "passed");
+      messagesView.classList.toggle("hidden", activeDiscoverView !== "messages");
+
+      discoverTabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.view === activeDiscoverView);
+      });
+    }
+
+    function setDiscoverView(view) {
+      activeDiscoverView = view;
+      renderDiscoverView();
+      renderMessagesView();
+    }
+
+    function openMessageThread(key, switchTab = true) {
+      const match = interestedMatches.get(key) || passedMatches.get(key);
+      if (match) {
+        ensureThread(match);
+      }
+
+      if (!messageThreads.has(key)) {
+        return;
+      }
+
+      activeThreadKey = key;
+      const thread = messageThreads.get(key);
+      thread.unread = 0;
+      thread.lastUpdated = "Now";
+      if (switchTab) {
+        activeDiscoverView = "messages";
+        renderDiscoverView();
+      }
+      renderDecisionLists();
+      renderMessagesView();
+    }
+
+    function syncProposalFromInputs(thread) {
+      const titleInput = document.getElementById("proposal-title");
+      const timeInput = document.getElementById("proposal-time");
+      const placeInput = document.getElementById("proposal-place");
+
+      if (!titleInput || !timeInput || !placeInput) {
+        return;
+      }
+
+      thread.proposal.title = `${titleInput.value} with ${thread.match.dogName}`;
+      thread.proposal.time = timeInput.value;
+      thread.proposal.place = placeInput.value;
+    }
+
+    function updateProposalStatus(status) {
+      if (!activeThreadKey || !messageThreads.has(activeThreadKey)) {
+        return;
+      }
+
+      const thread = messageThreads.get(activeThreadKey);
+      syncProposalFromInputs(thread);
+      thread.proposal.status = status;
+      thread.lastUpdated = "Now";
+      const now = currentTimeLabel();
+
+      if (status === "Proposed") {
+        thread.messages.push({
+          sender: "self",
+          text: `Would you be up for ${thread.proposal.title.toLowerCase()} at ${thread.proposal.place} on ${thread.proposal.time}?`,
+          time: now
+        });
+        thread.messages.push({
+          sender: "them",
+          text: `${thread.proposal.time} could work for us. ${thread.proposal.place} feels like a good fit for ${thread.match.dogName}, especially for a ${thread.proposal.title.replace(` with ${thread.match.dogName}`, "").toLowerCase()}.`,
+          time: now
+        });
+      } else if (status === "Accepted") {
+        thread.messages.push({
+          sender: "them",
+          text: `Accepted. Let’s lock in ${thread.proposal.place} on ${thread.proposal.time} and keep the first meetup short, calm, and dog-focused.`,
+          time: now
+        });
+      } else {
+        thread.messages.push({
+          sender: "self",
+          text: `I need to reschedule. Could we try ${thread.proposal.place} at ${thread.proposal.time} instead?`,
+          time: now
+        });
+        thread.messages.push({
+          sender: "them",
+          text: `That could work better for us. ${thread.proposal.time} at ${thread.proposal.place} sounds like a more manageable option for ${thread.match.dogName}.`,
+          time: now
+        });
+      }
+
+      renderDecisionLists();
+      renderMessagesView();
+    }
+
+    function sendMessage() {
+      if (!activeThreadKey || !messageThreads.has(activeThreadKey)) {
+        return;
+      }
+
+      const input = document.getElementById("message-input");
+      const text = input.value.trim();
+      if (!text) {
+        return;
+      }
+
+      const thread = messageThreads.get(activeThreadKey);
+      const now = currentTimeLabel();
+      thread.messages.push({ sender: "self", text, time: now });
+      thread.messages.push({
+        sender: "them",
+        text: generateReply(thread, text),
+        time: now
+      });
+      thread.unread = 0;
+      thread.lastUpdated = "Now";
+      input.value = "";
+      renderDecisionLists();
+      renderMessagesView();
+    }
+
+    ["ownerName", "city", "state", "dogName", "dogBreed", "dogSize", "activityLevel", "dogDiet", "socialComfort", "introStyle"].forEach((id) => {
+      const element = document.getElementById(id);
+      element.addEventListener("input", () => {
+        swipeIndex = 0;
+        renderMatches();
+      });
+      element.addEventListener("change", () => {
+        swipeIndex = 0;
+        renderMatches();
+      });
+    });
+
+    ownerPhotoPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='92'%3E%3Crect width='92' height='92' rx='24' fill='%23d9efe5'/%3E%3Ctext x='46' y='50' text-anchor='middle' font-size='14' fill='%23285f4e' font-family='Arial'%3EYou%3C/text%3E%3C/svg%3E";
+    dogPhotoPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='92'%3E%3Crect width='92' height='92' rx='24' fill='%23f2b683'/%3E%3Ctext x='46' y='50' text-anchor='middle' font-size='14' fill='%2323302c' font-family='Arial'%3EDog%3C/text%3E%3C/svg%3E";
+
+    ownerPhoto.addEventListener("change", () => updatePhotoPreview(ownerPhoto, ownerPhotoPreview));
+    dogPhoto.addEventListener("change", () => updatePhotoPreview(dogPhoto, dogPhotoPreview));
+
+    document.querySelectorAll("#hobbies-group input, #temperament-group input, #playstyle-group input").forEach((input) => {
+      input.addEventListener("change", () => {
+        swipeIndex = 0;
+        renderMatches();
+      });
+    });
+
+    discoverTabs.forEach((tab) => {
+      tab.addEventListener("click", () => setDiscoverView(tab.dataset.view));
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (!validateStep(currentStep)) {
+        return;
+      }
+
+      if (currentStep === steps.length - 1) {
+        launchDiscoverScreen();
+        return;
+      }
+
+      currentStep += 1;
+      if (currentStep === steps.length - 1) {
+        renderSummary();
+      }
+      renderStep();
+    });
+
+    backBtn.addEventListener("click", () => {
+      if (isEditingProfile && currentStep === 0) {
+        launchDiscoverScreen();
+        return;
+      }
+
+      if (currentStep === 0) {
+        return;
+      }
+      currentStep -= 1;
+      if (currentStep === steps.length - 1) {
+        renderSummary();
+      }
+      renderStep();
+    });
+
+    passBtn.addEventListener("click", () => swipeCard("pass"));
+    likeBtn.addEventListener("click", () => swipeCard("like"));
+    editProfileBtn.addEventListener("click", openProfileEditor);
+
+    function renderStep() {
+      steps.forEach((step, index) => {
+        step.classList.toggle("active", index === currentStep);
+      });
+
+      const progress = ((currentStep + 1) / steps.length) * 100;
+      progressBar.style.width = `${progress}%`;
+      stepPill.textContent = `${currentStep + 1} / ${steps.length}`;
+      heroTitle.textContent = stepMeta[currentStep].title;
+      heroSubtitle.textContent = stepMeta[currentStep].subtitle;
+
+      backBtn.classList.toggle("hidden", currentStep === 0 && !isEditingProfile);
+      backBtn.textContent = isEditingProfile && currentStep === 0 ? "Back to Swiping" : "Back";
+      nextBtn.textContent = currentStep === steps.length - 1
+        ? (isEditingProfile ? "Save Changes" : "Create Profile")
+        : "Continue";
+    }
+
+    function validateStep(step) {
+      if (step === 1) {
+        const ownerName = document.getElementById("ownerName").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const state = document.getElementById("state").value;
+        if (!ownerName || !city || !state) {
+          alert("Please add your name, city, and state.");
+          return false;
+        }
+      }
+
+      if (step === 2 && getCheckedValues("hobbies-group").length === 0) {
+        alert("Choose at least one meetup setting for your dog.");
+        return false;
+      }
+
+      if (step === 3) {
+        const dogName = document.getElementById("dogName").value.trim();
+        const dogBreed = document.getElementById("dogBreed").value.trim();
+        if (!dogName || !dogBreed) {
+          alert("Please add your dog's name and breed.");
+          return false;
+        }
+      }
+
+      if (step === 4) {
+        if (getCheckedValues("temperament-group").length === 0 || getCheckedValues("playstyle-group").length === 0) {
+          alert("Choose at least one temperament and one play style.");
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    function getCheckedValues(groupId) {
+      return Array.from(document.querySelectorAll(`#${groupId} input:checked`)).map((input) => input.value);
+    }
+
+    function getLocationLabel() {
+      const city = document.getElementById("city").value.trim();
+      const state = document.getElementById("state").value;
+      return [city, state].filter(Boolean).join(", ");
+    }
+
+    function updatePhotoPreview(input, preview) {
+      const [file] = input.files;
+      if (!file) {
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        preview.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderSummary() {
+      const ownerSummary = document.getElementById("owner-summary");
+      const dogSummary = document.getElementById("dog-summary");
+      const matchingSummary = document.getElementById("matching-summary");
+      const outingPreferences = getCheckedValues("hobbies-group");
+      const temperaments = getCheckedValues("temperament-group");
+      const playStyles = getCheckedValues("playstyle-group");
+      const dogBreed = document.getElementById("dogBreed").value.trim();
+      const dogSize = document.getElementById("dogSize").value;
+
+      const ownerItems = [
+        ["Name", document.getElementById("ownerName").value.trim()],
+        ["Location", getLocationLabel()],
+        ["Role", "Handler and meetup coordinator"]
+      ];
+
+      const dogItems = [
+        ["Dog name", document.getElementById("dogName").value.trim()],
+        ["Breed", dogBreed],
+        ["Size", dogSize],
+        ["Activity", document.getElementById("activityLevel").value],
+        ["Diet", document.getElementById("dogDiet").value],
+        ["Social comfort", document.getElementById("socialComfort").value],
+        ["Best intro", document.getElementById("introStyle").value],
+        ["Temperament", temperaments.join(", ")],
+        ["Play style", playStyles.join(", ")],
+        ["Best outings", outingPreferences.join(", ")]
+      ];
+
+      const matchItems = [
+        ["Outing fit", outingPreferences.length ? `Dogs that also do well in ${outingPreferences.slice(0, 2).join(" and ").toLowerCase()}` : "Dogs with similar meetup settings"],
+        ["Dog basics", `${dogSize} dogs with a workable energy and size fit for ${dogBreed || "your dog"}`],
+        ["Social comfort", `Dogs with a similar intro pace to ${document.getElementById("socialComfort").value.toLowerCase()}`],
+        ["Play match", playStyles.length ? `Dogs who enjoy ${playStyles.slice(0, 2).join(" and ").toLowerCase()}` : "Dogs with a similar play style"]
+      ];
+
+      ownerSummary.innerHTML = ownerItems.map(([label, value]) =>
+        `<li><strong>${label}:</strong> ${value || "Not added"}</li>`
+      ).join("");
+
+      dogSummary.innerHTML = dogItems.map(([label, value]) =>
+        `<li><strong>${label}:</strong> ${value || "Not added"}</li>`
+      ).join("");
+
+      matchingSummary.innerHTML = matchItems.map(([label, value]) =>
+        `<li><strong>${label}:</strong> ${value}</li>`
+      ).join("");
+    }
+
+    function buildUserProfile() {
+      return {
+        ownerName: document.getElementById("ownerName").value.trim(),
+        location: getLocationLabel(),
+        outingPreferences: getCheckedValues("hobbies-group"),
+        dogName: document.getElementById("dogName").value.trim(),
+        dogBreed: document.getElementById("dogBreed").value.trim(),
+        dogSize: document.getElementById("dogSize").value,
+        activityLevel: document.getElementById("activityLevel").value,
+        dogDiet: document.getElementById("dogDiet").value,
+        socialComfort: document.getElementById("socialComfort").value,
+        introStyle: document.getElementById("introStyle").value,
+        temperament: getCheckedValues("temperament-group"),
+        playStyle: getCheckedValues("playstyle-group")
+      };
+    }
+
+    function overlapRatio(first, second) {
+      if (!first.length || !second.length) {
+        return 0;
+      }
+      const shared = first.filter((item) => second.includes(item)).length;
+      return shared / Math.max(first.length, second.length);
+    }
+
+    function breedSimilarity(firstBreed, secondBreed) {
+      if (!firstBreed || !secondBreed) {
+        return 0.25;
+      }
+
+      const first = firstBreed.toLowerCase();
+      const second = secondBreed.toLowerCase();
+
+      if (first === second) {
+        return 1;
+      }
+
+      const firstTokens = first.split(/\s+/);
+      const secondTokens = second.split(/\s+/);
+      const sharedTokens = firstTokens.filter((token) => secondTokens.includes(token)).length;
+      return sharedTokens > 0 ? 0.7 : 0.25;
+    }
+
+    function adjacentActivity(first, second) {
+      const scale = ["Low Energy", "Moderate", "High Energy"];
+      return Math.abs(scale.indexOf(first) - scale.indexOf(second)) === 1;
+    }
+
+    function comfortSimilarity(first, second) {
+      const scale = ["Needs Slow Intro", "Warms Up With Time", "Comfortable Quickly", "Loves Every Dog"];
+      const distance = Math.abs(scale.indexOf(first) - scale.indexOf(second));
+      if (distance === 0) {
+        return 1;
+      }
+      if (distance === 1) {
+        return 0.7;
+      }
+      return 0.3;
+    }
+
+    function buildReasons(user, candidate, sizeScore, breedScore, activityScore, comfortScore, playScore) {
+      const sharedOutings = user.outingPreferences.filter((item) => candidate.outingPreferences.includes(item));
+      const sharedTemperaments = user.temperament.filter((item) => candidate.temperament.includes(item));
+      const sharedPlay = user.playStyle.filter((item) => candidate.playStyle.includes(item));
+
+      return [
+        sharedOutings.length
+          ? `Shared best-fit settings: ${sharedOutings.slice(0, 2).join(", ")}`
+          : "Different outing preferences, so this may work best with a careful first meetup plan",
+        comfortScore >= 0.7
+          ? `Similar social pace: ${candidate.socialComfort}`
+          : `Social pace differs, so ${candidate.introStyle.toLowerCase()} may be the better introduction`,
+        sharedPlay.length || playScore > 0
+          ? `Play style overlap: ${(sharedPlay.slice(0, 2).join(" and ")) || candidate.playStyle[0]}`
+          : "Play styles look different, which may require more structure",
+        sharedTemperaments.length
+          ? `Temperament overlap: ${sharedTemperaments.slice(0, 2).join(" and ")}`
+          : "Temperaments may need a slower introduction",
+        sizeScore
+          ? `Both dogs are ${candidate.dogSize.toLowerCase()} sized`
+          : `Dog sizes differ: ${user.dogSize.toLowerCase()} and ${candidate.dogSize.toLowerCase()}`,
+        breedScore >= 0.7
+          ? `Breed traits feel similar to ${candidate.dogBreed}`
+          : `${candidate.dogBreed} offers a different but still workable dog vibe`,
+        activityScore === 1
+          ? `Same activity level: ${candidate.activityLevel}`
+          : `Energy pacing is ${candidate.activityLevel.toLowerCase()}`
+      ];
+    }
+
+    function getRankedMatches() {
+      const user = buildUserProfile();
+
+      return sampleMatches
+        .map((candidate) => {
+          const outingOverlap = overlapRatio(user.outingPreferences, candidate.outingPreferences);
+          const temperamentOverlap = overlapRatio(user.temperament, candidate.temperament);
+          const playOverlap = overlapRatio(user.playStyle, candidate.playStyle);
+          const sizeScore = user.dogSize === candidate.dogSize ? 1 : 0;
+          const breedScore = breedSimilarity(user.dogBreed, candidate.dogBreed);
+          const dogSimilarity = (sizeScore * 0.55) + (breedScore * 0.45);
+          const activityScore = user.activityLevel === candidate.activityLevel ? 1 : adjacentActivity(user.activityLevel, candidate.activityLevel) ? 0.6 : 0.2;
+          const comfortScore = comfortSimilarity(user.socialComfort, candidate.socialComfort);
+          const introScore = user.introStyle === candidate.introStyle ? 1 : 0.55;
+          const score = Math.round(((outingOverlap * 0.2) + (temperamentOverlap * 0.22) + (playOverlap * 0.2) + (comfortScore * 0.14) + (introScore * 0.1) + (activityScore * 0.08) + (dogSimilarity * 0.06)) * 100);
+
+          return {
+            ...candidate,
+            score,
+            reasons: buildReasons(user, candidate, sizeScore, breedScore, activityScore, comfortScore, playOverlap)
+          };
+        })
+        .sort((a, b) => b.score - a.score);
+    }
+
+    function getAvailableMatches() {
+      return getRankedMatches().filter((candidate) => {
+        const key = matchKey(candidate);
+        return !interestedMatches.has(key) && !passedMatches.has(key);
+      });
+    }
+
+    function syncDecisionMatches() {
+      const ranked = getRankedMatches();
+      const rankedMap = new Map(ranked.map((match) => [matchKey(match), match]));
+
+      interestedMatches.forEach((match, key) => {
+        if (rankedMap.has(key)) {
+          interestedMatches.set(key, rankedMap.get(key));
+        }
+      });
+
+      passedMatches.forEach((match, key) => {
+        if (rankedMap.has(key)) {
+          passedMatches.set(key, rankedMap.get(key));
+        }
+      });
+    }
+
+    function renderMatches() {
+      syncDecisionMatches();
+      const activeMatches = getAvailableMatches().slice(swipeIndex);
+      renderDecisionLists();
+
+      if (!activeMatches.length) {
+        topScoreBadge.textContent = "--%";
+        cardStack.innerHTML = `<div class="empty-state">You have reviewed every current dog match in this sample deck. Re-interest a passed profile or tweak the questionnaire to reshuffle compatibility.</div>`;
+        compatibilityList.innerHTML = "<li>Use Re-interest from the passed list or update outing preferences, social comfort, play style, or temperament to see a fresh ranking.</li>";
+        return;
+      }
+
+      const [topMatch] = activeMatches;
+      topScoreBadge.textContent = `${topMatch.score}%`;
+      compatibilityList.innerHTML = topMatch.reasons.map((reason) => `<li>${reason}</li>`).join("");
+
+      cardStack.innerHTML = `
+        <article class="match-card">
+          <div class="match-top">
+            <div>
+              <h3>${topMatch.ownerName} <span style="color: var(--clay);">${topMatch.score}%</span></h3>
+              <div class="meta-line">${topMatch.location}</div>
+            </div>
+            <div class="match-avatars">
+              <img class="match-avatar" src="${topMatch.ownerPhoto}" alt="${topMatch.ownerName} profile photo">
+              <img class="match-avatar" src="${topMatch.dogPhoto}" alt="${topMatch.dogName} profile photo">
+            </div>
+          </div>
+
+          <p style="margin: 0; color: var(--muted); line-height: 1.6;">${topMatch.bio}</p>
+
+          <div class="dog-spotlight">
+            <h4>Dog profile</h4>
+            <div class="mini-badge-row">
+              <span class="mini-badge">${topMatch.dogSize}</span>
+              <span class="mini-badge">${topMatch.activityLevel}</span>
+              ${topMatch.temperament.map((item) => `<span class="mini-badge">${item}</span>`).join("")}
+            </div>
+          </div>
+
+          <div>
+            <h4 style="margin: 0 0 10px;">Best meetup settings</h4>
+            <div class="mini-badge-row">
+              ${topMatch.outingPreferences.map((item) => `<span class="mini-badge">${item}</span>`).join("")}
+            </div>
+          </div>
+
+          <div>
+            <h4 style="margin: 0 0 10px;">Why this could work</h4>
+            <ul class="insight-list">
+              ${topMatch.reasons.map((reason) => `<li>${reason}</li>`).join("")}
+            </ul>
+          </div>
+        </article>
+      `;
+    }
+
+    function swipeCard(direction) {
+      const activeMatches = getAvailableMatches().slice(swipeIndex);
+      if (!activeMatches.length) {
+        return;
+      }
+
+      const [topMatch] = activeMatches;
+      const key = matchKey(topMatch);
+
+      if (direction === "like") {
+        passedMatches.delete(key);
+        interestedMatches.set(key, topMatch);
+      } else {
+        interestedMatches.delete(key);
+        passedMatches.set(key, topMatch);
+      }
+
+      const topCard = cardStack.querySelector(".match-card");
+      if (topCard) {
+        topCard.classList.add("hidden-card");
+        topCard.style.transform = direction === "like"
+          ? "translateX(120px) rotate(10deg)"
+          : "translateX(-120px) rotate(-10deg)";
+      }
+
+      window.setTimeout(() => {
+        swipeIndex = 0;
+        renderMatches();
+      }, 220);
+    }
+
+    function reinterestMatch(key) {
+      const match = passedMatches.get(key);
+      if (!match) {
+        return;
+      }
+
+      passedMatches.delete(key);
+      interestedMatches.set(key, match);
+      activeDiscoverView = "interested";
+      swipeIndex = 0;
+      renderDiscoverView();
+      renderMatches();
+    }
+
+    function passSavedMatch(key) {
+      const match = interestedMatches.get(key);
+      if (!match) {
+        return;
+      }
+
+      interestedMatches.delete(key);
+      passedMatches.set(key, match);
+      activeDiscoverView = "passed";
+      swipeIndex = 0;
+      renderDiscoverView();
+      renderMatches();
+    }
+
+    function launchDiscoverScreen() {
+      renderSummary();
+      swipeIndex = 0;
+      activeDiscoverView = "browse";
+      renderDiscoverView();
+      renderMatches();
+      isEditingProfile = false;
+      onboardingScreen.classList.add("hidden");
+      discoverScreen.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function openProfileEditor() {
+      isEditingProfile = true;
+      currentStep = 1;
+      discoverScreen.classList.add("hidden");
+      onboardingScreen.classList.remove("hidden");
+      renderSummary();
+      renderStep();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    renderDiscoverView();
+    renderDecisionLists();
+    renderMessagesView();
+    renderMatches();
+    renderStep();
+  </script>
+</body>
+</html>
